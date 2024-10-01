@@ -18,11 +18,6 @@ loop:
     addi t2, t2, 1                    # t2 = 1  (t2 is 1U)
     mv s1, a0                         # without modifying a0, copy a0 to s1
     bnez s1, count_set_bits_loop      # while (n != 0) 
-here3:
-    jal ra,clz_done
-    
-    li a7, 10                         # close the program
-    ecall
 
 clz_loop:
     sll t4, t2, t1                    # t4 record 1U shift i
@@ -38,24 +33,23 @@ count_set_bits_loop:                  # s0 is count
     add t1, zero, zero                # clz_loop i reset to 0
     addi t1, t1, 31                   # t1 = 31 (t1 is i)
     jal ra, clz_loop                  # leading_zeros = my_clz(n);
-here1:   
+back_to_bits_loop:   
     sll s1, s1, s3                    # n <<= leading_zeros;
     bnez s1, count_set_bits_if_statement
-here2:
+judge:
     bnez s1, count_set_bits_loop      
-    beq s1,zero,here3
+    beq s1, zero, clz_done
     
     
 clz_record:                           # s3 is leading_zeros in count_set_bits_loop
     mv s3, t5                         
     add t5, zero, zero
-    jal here1
-    # want to jump to 52 lines  
+    jal x0, back_to_bits_loop
     
 count_set_bits_if_statement:
     addi s2, s2, 1
     slli s1, s1, 1
-    jal here2
+    jal x0, judge
 
 clz_done:
     mv s1, a0
@@ -83,3 +77,6 @@ clz_done:
     addi s5, s5, 4                     # move to the next test case
     addi s6, s6, -1                    # test case counter--
     bne  s6, zero, loop                # counter=0,break
+    
+    li a7, 10                          # close the program
+    ecall
