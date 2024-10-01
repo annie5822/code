@@ -1,21 +1,23 @@
 #include <stdio.h>
 #include <stdint.h>
 
-static inline int my_clz(uint32_t x) {
+// Calculate how many leading zeros are in a number."
+static inline int my_clz(uint32_t x) {       
     int count = 0;
-    for (int i = 31; i >= 0; --i) {
-        if (x & (1U << i))
+    for (int i = 31; i >= 0; --i) {     
+        if (x & (1U << i))              // 1U = unsigned int 1
             break;
         count++;
     }
     return count;
 }
 
+
 int count_set_bits(uint32_t n) {
     int count = 0;
     while (n != 0) {
-        int leading_zeros = my_clz(n);
-        n <<= leading_zeros;
+        int leading_zeros = my_clz(n); 
+        n <<= leading_zeros;          
         if (n != 0) {
             count++;
             n <<= 1;
@@ -27,8 +29,10 @@ int count_set_bits(uint32_t n) {
 int main() {
     uint32_t value1 = 11;
     int set_bits1 = count_set_bits(value1);
+    
     uint32_t value2 = 128;
     int set_bits2 = count_set_bits(value2);
+    
     uint32_t value3 = 2147483645;
     int set_bits3 = count_set_bits(value3);
 
