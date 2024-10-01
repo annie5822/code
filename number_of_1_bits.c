@@ -36,9 +36,9 @@ int main() {
     uint32_t value3 = 2147483645;
     int set_bits3 = count_set_bits(value3);
 
-    printf("The number of set bits in 0x%X is: %d\n", value1, set_bits1);
-    printf("The number of set bits in 0x%X is: %d\n", value2, set_bits2);
-    printf("The number of set bits in 0x%X is: %d\n", value3, set_bits3);
+    printf("The number of set bits in %d is: %d\n", value1, set_bits1);
+    printf("The number of set bits in %d is: %d\n", value2, set_bits2);
+    printf("The number of set bits in %d is: %d\n", value3, set_bits3);
 
     return 0;
 }
